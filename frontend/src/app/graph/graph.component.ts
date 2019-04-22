@@ -15,7 +15,7 @@ import {GraphData} from './graph-data.model';
 import {PropertyHandler} from '../util/property-handler';
 
 @Component({
-  selector: 'jg-graph',
+  selector: 'graph',
   templateUrl: 'graph.component.html',
   styleUrls: ['graph.component.scss'],
   host: {'[class._full-screen]': '_graphState.fullScreen'}
@@ -113,15 +113,15 @@ export class GraphComponent implements AfterViewInit {
     };
     let scale = transform.k;
 
-    context.beginPath();
     for (let link of this.data.links) {
+      context.beginPath();
       context.moveTo(link.source.x * scale + translate.x, link.source.y * scale + translate.y);
       context.lineTo(link.target.x * scale + translate.x, link.target.y * scale + translate.y);
-
+      context.lineWidth = link.weight;
+      context.strokeStyle = '#999999';
+      context.stroke();
+      context.closePath();
     }
-    context.strokeStyle = '#999999';
-    context.stroke();
-    context.closePath();
 
     for (let color in this.colorGroups) {
       context.beginPath();
@@ -130,7 +130,7 @@ export class GraphComponent implements AfterViewInit {
         context.arc(
           node.x * scale + translate.x,
           node.y * scale + translate.y,
-          radius * scale,
+          node.weight * scale,
           0, 2 * Math.PI);
       }
 
@@ -298,7 +298,7 @@ export class GraphComponent implements AfterViewInit {
     let pixelRatio = this.properties.pixelRatio = window.devicePixelRatio || 1;
 
     let clientHeight = document.documentElement.clientHeight;
-    let height = this._graphState.fullScreen ? clientHeight : Math.round(clientHeight * 0.9);
+    let height = this._graphState.fullScreen ? clientHeight : Math.round(clientHeight * 0.7);
 
     this.canvas.width = this.properties.width = width * pixelRatio;
     this.canvas.height = this.properties.height = height * pixelRatio;

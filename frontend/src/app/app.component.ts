@@ -10,7 +10,7 @@ export class AppComponent {
 
   data = {
     "nodes": [
-      {"id": "Myriel", "group": 1},
+      {"id": "Myriel", "group": 1, "weight": 10},
       {"id": "Napoleon", "group": 1},
       {"id": "Mlle.Baptistine", "group": 1},
       {"id": "Mme.Magloire", "group": 1},
@@ -89,8 +89,8 @@ export class AppComponent {
       {"id": "Mme.Hucheloup", "group": 8}
     ],
     "links": [
-      {"source": "Napoleon", "target": "Myriel", "value": 1},
-      {"source": "Mlle.Baptistine", "target": "Myriel", "value": 8},
+      {"source": "Napoleon", "target": "Myriel", "value": 1, "weight" : 1},
+      {"source": "Mlle.Baptistine", "target": "Myriel", "value": 8, "weight" : 2},
       {"source": "Mme.Magloire", "target": "Myriel", "value": 10},
       {"source": "Mme.Magloire", "target": "Mlle.Baptistine", "value": 6},
       {"source": "CountessdeLo", "target": "Myriel", "value": 1},
