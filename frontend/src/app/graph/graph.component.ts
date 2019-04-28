@@ -131,7 +131,7 @@ export class GraphComponent implements AfterViewInit {
           node.x * scale + translate.x,
           node.y * scale + translate.y,
           node.weight * scale,
-          0, 2 * Math.PI);
+          0, 2.5 * Math.PI);
       }
 
       context.fillStyle = color;

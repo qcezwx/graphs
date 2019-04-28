@@ -1,5 +1,9 @@
+<button (click)="updateResultGraphData()">get result</button>
 <graph [data]="initialGraphData"></graph>
+<graph *ngIf="resultGraphData" [data]="resultGraphData"></graph>
 
 <li *ngFor="let link of initialGraphData.links">
-  <span>{{link.weight}}</span>
+  <span>source: {{link.source}}</span>
+  <span>target: {{link.target}}</span>
+  <span>weight: {{link.weight}}</span>
 </li>

@@ -3,6 +3,7 @@ import {GraphData} from "./graph-data.model";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {GraphResponse} from "./GraphResponse";
+import {GraphRequest} from "./GraphRequest";
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -46,8 +47,8 @@ export class GraphService {
     return graphData;
   }
 
-  getResultGraph(): Observable<GraphResponse> {
-    return this.http.get<GraphResponse>(`http://localhost:8080/api/sasha/result-graph`)
+  getResultGraph(request: GraphRequest): Observable<GraphResponse> {
+    return this.http.post<GraphResponse>(`http://localhost:8080/api/sasha/result-graph`, request);
   }
 
 }

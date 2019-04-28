@@ -30,7 +30,7 @@ def color_graph(graph, edges):
         node['color'] = 'green' if node['nodeId'] in active_nodes else 'red'
 
     sorted_edges = list(map(sorted, edges))
-    for edge in colored_graph['edges']:
+    for edge in colored_graph['links']:
         edge['color'] = ('blue' if sorted((edge['nodeId1'], edge['nodeId2']))
                          in sorted_edges else 'black')
 
@@ -42,7 +42,7 @@ def sasha(query, context):
     query = {
         'graph': {
             'nodes': [{'nodeId': int, 'weight': float}]
-            'edges': [{'nodeId1': int, 'nodeId2': int, 'weight': float}]
+            'links': [{'nodeId1': int, 'nodeId2': int, 'weight': float}]
             }
         'method': {'name': str, 'params': {}}
     }
@@ -53,7 +53,7 @@ def sasha(query, context):
 
     # query = json.loads(query)
 
-    edges = [(edge['nodeId1'], edge['nodeId2'], edge['weight']) for edge in query['graph']['edges']]
+    edges = [(edge['nodeId1'], edge['nodeId2'], edge['weight']) for edge in query['graph']['links']]
     nodes = {node['nodeId']: node['weight'] for node in query['graph']['nodes']}
     weights = [nodes[idx] for idx in sorted(nodes)]
 
@@ -74,7 +74,7 @@ def sasha(query, context):
     }
     return json.dumps(result)
 
-    # result1 = method(edges, weights, **params)
+    # result1 = method(links, weights, **params)
     # res_tmp = serj.make_new_graph(src_graph, result1, src_graph.vs["weight"])
     #
     # res_graph_1 = src_graph.copy()

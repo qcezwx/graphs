@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {GraphData} from "../graph/graph-data.model";
 import {GraphService} from "../graph/graph.service";
 import {GraphResponse} from "../graph/GraphResponse";
+import {GraphRequest} from "../graph/GraphRequest";
 
 @Component({
   selector: 'data-container',
@@ -15,7 +16,6 @@ export class GraphDataContainerComponent implements OnInit, OnDestroy {
 
   graphResponse: GraphResponse;
 
-  private sub: any;
 
   constructor(private graphService: GraphService) { }
 
@@ -24,7 +24,31 @@ export class GraphDataContainerComponent implements OnInit, OnDestroy {
   }
 
   updateResultGraphData(): void {
-    this.graphService.getResultGraph().subscribe(graphResponse => this.graphResponse = graphResponse);
+    let graphRequest: GraphRequest = new GraphRequest({nodes: [], edges: []}, {name: "test", params:{limit: 0}});
+
+    for (let i = 0; i < this.initialGraphData.nodes.length; i++) {
+      graphRequest.graph.nodes.push({
+        nodeId: this.initialGraphData.nodes[i].id,
+        weight: this.initialGraphData.nodes[i].weight
+      });
+    }
+
+    for (let i = 0; i < this.initialGraphData.links.length; i++) {
+      graphRequest.graph.edges.push({
+        nodeId1: this.initialGraphData.links[i].source,
+        nodeId2: this.initialGraphData.links[i].target,
+        weight: this.initialGraphData.links[i].weight
+      });
+    }
+
+    graphRequest.method = {
+      name: "simple_grasp",
+      params: {
+        limit: 400
+      }
+    };
+
+    this.graphService.getResultGraph(graphRequest).subscribe(graphResponse => this.graphResponse = graphResponse);
 
     for (let i = 0; i < this.graphResponse.graph.nodes.length; i++) {
       this.resultGraphData.nodes[i] = {
@@ -34,17 +58,16 @@ export class GraphDataContainerComponent implements OnInit, OnDestroy {
       }
     }
 
-    for (let i = 0; i < this.graphResponse.graph.links.length; i++) {
+    for (let i = 0; i < this.graphResponse.graph.edges.length; i++) {
       this.resultGraphData.links[i] = {
-        source: this.graphResponse.graph.links[i].nodeId1,
-        target: this.graphResponse.graph.links[i].nodeId2,
-        weight: this.graphResponse.graph.links[i].weight
+        source: this.graphResponse.graph.edges[i].nodeId1,
+        target: this.graphResponse.graph.edges[i].nodeId2,
+        weight: this.graphResponse.graph.edges[i].weight
       }
     }
 
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 }

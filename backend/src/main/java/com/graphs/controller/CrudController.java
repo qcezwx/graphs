@@ -16,20 +16,20 @@ public class CrudController {
         this.sashaGraphService = sashaGraphService;
     }
 
-    // Get Mapping
-    @GetMapping("/api/sasha/result-graph")
+    // Post Mapping
+    @PostMapping("/api/sasha/result-graph")
     @ResponseBody
     public LambdaResponse getLambdaResponse(HttpEntity<String> httpEntity) {
         return sashaGraphService.invokeLambdaFunction(httpEntity.getBody());
     }
-    @GetMapping("/api/test/result-graph")
+    @PostMapping("/api/test/result-graph")
     @ResponseBody
     public String greetingJson(HttpEntity<String> httpEntity) {
         System.out.println(httpEntity.getBody());
         return httpEntity.getBody();
     }
 
-    // Post Mapping
+    // Get Mapping
 
     // Put Mapping
 

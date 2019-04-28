@@ -12,7 +12,7 @@ export class GraphRequest {
   };
 
   method: {
-    name: string;
+    name?: string;
     params: {
       limit: number;
     }

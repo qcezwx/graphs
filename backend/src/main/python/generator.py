@@ -53,7 +53,7 @@ for num in range(GEN_NUM):
         
 # Прогоняем полный перебор или pcst
 f_res = open('data/total_res_' + MET, "w")
-#f_res.write('id (prize, price, vertices, edges)' + '\n')
+#f_res.write('id (prize, price, vertices, links)' + '\n')
 for num in range (GEN_NUM):
     src_file = 'data/src_' + str(num)
     brute_file = 'data/' + MET + '_' + str(num)

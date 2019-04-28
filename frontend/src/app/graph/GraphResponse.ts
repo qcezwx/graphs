@@ -5,7 +5,7 @@ export class GraphResponse {
       weight: number;
       color: string;
     }[],
-    links: {
+    edges: {
       nodeId1: string;
       nodeId2: string;
       weight: number;
@@ -15,7 +15,7 @@ export class GraphResponse {
 
   time: number;
 
-  constructor(graph: { nodes: { nodeId: string; weight: number; color: string }[]; links: { nodeId1: string; nodeId2: string; weight: number; color: string }[] }, time: number) {
+  constructor(graph: { nodes: { nodeId: string; weight: number; color: string }[]; edges: { nodeId1: string; nodeId2: string; weight: number; color: string }[] }, time: number) {
     this.graph = graph;
     this.time = time;
   }
