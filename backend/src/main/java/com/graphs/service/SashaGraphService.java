@@ -19,7 +19,7 @@ public class SashaGraphService {
 
     public LambdaResponse invokeLambdaFunction(String payload) {
         BasicAWSCredentials credentials =
-                new BasicAWSCredentials("AKIAICS2K4P3YXM2IRUA", "sKOFmwGYYpPeaZMYCyHoCxH7zIrKZDQRQ19vYo3A");
+                new BasicAWSCredentials("", "");
 
         AWSLambdaClientBuilder builder = AWSLambdaClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))

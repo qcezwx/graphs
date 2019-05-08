@@ -1,13 +1,13 @@
 import {
   AfterViewInit,
   ChangeDetectorRef,
-  Component,
+  Component, ElementRef,
   EventEmitter,
   HostListener,
   Inject,
   Input,
   NgZone,
-  Output
+  Output, ViewChild
 } from '@angular/core';
 import * as d3 from 'd3';
 import {Simulation, SimulationLinkDatum, SimulationNodeDatum} from 'd3-force';
@@ -52,6 +52,8 @@ export class GraphComponent implements AfterViewInit {
   } = {};
 
   private simulation: Simulation<SimulationNodeDatum, SimulationLinkDatum<SimulationNodeDatum>>;
+  @ViewChild('canvas')
+  private canvasElement: ElementRef;
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D;
   private transform = d3.zoomIdentity;
@@ -64,16 +66,41 @@ export class GraphComponent implements AfterViewInit {
     radius: number
   } = {radius: 5};
 
-  private defaultColor = function(node : any) {
-    return "#aaaaaa";
+  private getNodeColor = function(node : any) {
+    if (!node.group) {
+      return "#000000";
+    } else if (node.group === 1) {
+      return "#19ff00";
+    } else if (node.group === 2) {
+      return "#ff0000";
+    } else if (node.group === 3) {
+      return "#aaaaaa";
+    } else {
+      return "#000000";
+    }
   };
+
+  private getLinkColor(link : any): string {
+    if (!link.group) {
+      return "#000000";
+    } else if (link.group === 1) {
+      return "#006aff";
+    } else if (link.group === 2) {
+      return "#aaaaaa";
+    } else if (link.group === 3) {
+      return "#aaaaaa";
+    } else {
+      return "#000000";
+    }
+  }
+
 
   constructor(private zone: NgZone,
               private changeDetectorRef: ChangeDetectorRef) {
   }
 
   ngAfterViewInit(): void {
-    this.canvas = <HTMLCanvasElement>document.getElementById('graph');
+    this.canvas = this.canvasElement.nativeElement;
     this.resize();
     this.updateSimulationData();
     this.repaint();
@@ -118,7 +145,7 @@ export class GraphComponent implements AfterViewInit {
       context.moveTo(link.source.x * scale + translate.x, link.source.y * scale + translate.y);
       context.lineTo(link.target.x * scale + translate.x, link.target.y * scale + translate.y);
       context.lineWidth = link.weight;
-      context.strokeStyle = '#999999';
+      context.strokeStyle = this.getLinkColor(link);
       context.stroke();
       context.closePath();
     }
@@ -126,16 +153,17 @@ export class GraphComponent implements AfterViewInit {
     for (let color in this.colorGroups) {
       context.beginPath();
       for (let node of this.colorGroups[color]) {
-        context.moveTo((node.x + radius) * scale + translate.x, node.y * scale + translate.y);
+        context.moveTo((node.x + node.weight) * scale + translate.x, node.y * scale + translate.y);
         context.arc(
           node.x * scale + translate.x,
           node.y * scale + translate.y,
           node.weight * scale,
-          0, 2.5 * Math.PI);
+          0, 4 * Math.PI);
+        //context.fillText(node.id, (node.x + 15) * scale, (node.y + 10) * scale);
       }
 
       context.fillStyle = color;
-      context.strokeStyle = '#999999';
+      context.strokeStyle = '#000000';
       context.fill();
       context.stroke();
       context.closePath();
@@ -156,7 +184,10 @@ export class GraphComponent implements AfterViewInit {
             .force('link', d3.forceLink().id(function (d: any) {
               return d.id;
             }))
-            .force('charge', d3.forceManyBody())
+            .force('charge', d3.forceManyBody().strength(function (d, i) {
+            let a = i == 0 ? -2000 : -1000;
+            return a;
+          }).distanceMin(200).distanceMax(1000))
             .force('center', d3.forceCenter(this.properties.width / 2, this.properties.height / 2));
         }
         let simulation = this.simulation;
@@ -178,7 +209,7 @@ export class GraphComponent implements AfterViewInit {
 
   private addEventListeners(): void {
     let self = this;
-    let d3canvas = d3.select('#graph');
+    let d3canvas = d3.select(this.canvasElement.nativeElement);
     let redraw = this.redraw.bind(this);
     const radius = this.properties.radius;
 
@@ -274,7 +305,7 @@ export class GraphComponent implements AfterViewInit {
     });
   }
 
-  repaint(color: (data: any) => string = this.defaultColor): void {
+  repaint(color: (data: any) => string = this.getNodeColor): void {
     if (!this.data) {
       return;
     }

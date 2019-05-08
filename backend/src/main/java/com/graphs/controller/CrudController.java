@@ -20,6 +20,7 @@ public class CrudController {
     @PostMapping("/api/sasha/result-graph")
     @ResponseBody
     public LambdaResponse getLambdaResponse(HttpEntity<String> httpEntity) {
+        System.out.println(httpEntity.getBody());
         return sashaGraphService.invokeLambdaFunction(httpEntity.getBody());
     }
     @PostMapping("/api/test/result-graph")

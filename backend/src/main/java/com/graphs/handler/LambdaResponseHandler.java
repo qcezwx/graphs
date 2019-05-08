@@ -19,6 +19,7 @@ public class LambdaResponseHandler {
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
         }
+        System.out.println(rawJson);
 
         ObjectMapper mapper = new ObjectMapper();
 

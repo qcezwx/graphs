@@ -1,9 +1,33 @@
-<button (click)="updateResultGraphData()">get result</button>
+<div>
+  <mat-form-field>
+    <input matInput placeholder="Number of nodes" [(ngModel)]="nodesNumber" type="number">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Node min weight" [(ngModel)]="nodeMinWeight" type="number">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Node max weight" [(ngModel)]="nodeMaxWeight" type="number">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Link min weight" [(ngModel)]="linkMinWeight" type="number">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Link max weight" [(ngModel)]="linkMaxWeight" type="number">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Limit" [(ngModel)]="limit" type="number">
+  </mat-form-field>
+
+  <button mat-button (click)="getRandomGraph()">Generate</button>
+</div>
+
+<button mat-button (click)="updateResultGraphData()">Get result</button>
+
 <graph [data]="initialGraphData"></graph>
 <graph *ngIf="resultGraphData" [data]="resultGraphData"></graph>
 
-<li *ngFor="let link of initialGraphData.links">
-  <span>source: {{link.source}}</span>
-  <span>target: {{link.target}}</span>
-  <span>weight: {{link.weight}}</span>
-</li>

@@ -22,14 +22,14 @@ export class GraphService {
     return this.http.get(this.configUrl);
   }
 
-  getRandomGraph(): GraphData {
+  getRandomGraph(nodesNumber: number, nodeMinWeight: number, nodeMaxWeight: number, linkMinWeight: number, linkMaxWeight: number): GraphData {
     let graphData: GraphData = {nodes: [], links: []};
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < nodesNumber; i++) {
       graphData.nodes[i] = {
         id: i,
-        group: 1,
-        weight: Math.floor(Math.random() * 10 + 5)
+        group: 3,
+        weight: Math.floor(Math.random() * (nodeMaxWeight - nodeMinWeight + 1)) + nodeMinWeight
       };
     }
 
@@ -39,7 +39,8 @@ export class GraphService {
         graphData.links[linkCounter++] = {
           source: i,
           target: j,
-          weight: Math.floor(Math.random() * 4 + 1)
+          group: 3,
+          weight: Math.floor(Math.random() * (linkMaxWeight - linkMinWeight + 1)) + linkMinWeight
         };
       }
     }
