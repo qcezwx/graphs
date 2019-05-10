@@ -1,2 +1,5 @@
 *.idea
 *.iml
+backend/src/main/python/__pycache__/
+
+backend/src/main/python/\.ipynb_checkpoints/
