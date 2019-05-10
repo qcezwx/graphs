@@ -84,9 +84,9 @@ export class GraphComponent implements AfterViewInit {
     if (!link.group) {
       return "#000000";
     } else if (link.group === 1) {
-      return "#006aff";
+      return "#000dff";
     } else if (link.group === 2) {
-      return "#aaaaaa";
+      return "rgba(170, 170, 170, 0.08)";
     } else if (link.group === 3) {
       return "#aaaaaa";
     } else {
@@ -329,7 +329,7 @@ export class GraphComponent implements AfterViewInit {
     let pixelRatio = this.properties.pixelRatio = window.devicePixelRatio || 1;
 
     let clientHeight = document.documentElement.clientHeight;
-    let height = this._graphState.fullScreen ? clientHeight : Math.round(clientHeight * 0.7);
+    let height = this._graphState.fullScreen ? clientHeight : Math.round(clientHeight);
 
     this.canvas.width = this.properties.width = width * pixelRatio;
     this.canvas.height = this.properties.height = height * pixelRatio;

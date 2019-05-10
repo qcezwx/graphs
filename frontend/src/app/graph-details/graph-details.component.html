@@ -1,0 +1,63 @@
+<mat-accordion>
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Graph details
+      </mat-panel-title>
+      <mat-panel-description>
+        {{panelOpenState ? 'hide' : 'show'}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <span>Nodes:</span>
+    <table mat-table [dataSource]="nodeDataSource" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> Id. </th>
+        <td mat-cell *matCellDef="let node"> {{node.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="weight">
+        <th mat-header-cell *matHeaderCellDef> Weight </th>
+        <td mat-cell *matCellDef="let node"> {{node.weight}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="isIncluded">
+        <th mat-header-cell *matHeaderCellDef> Is included </th>
+        <td mat-cell *matCellDef="let node"> {{node.isIncluded}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="nodeColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: nodeColumns;"></tr>
+    </table>
+
+    <span>Links:</span>
+    <table mat-table [dataSource]="linkDataSource" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="source">
+        <th mat-header-cell *matHeaderCellDef> Source </th>
+        <td mat-cell *matCellDef="let link"> {{link.source}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="target">
+        <th mat-header-cell *matHeaderCellDef> Target </th>
+        <td mat-cell *matCellDef="let link"> {{link.target}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="weight">
+        <th mat-header-cell *matHeaderCellDef> Weight </th>
+        <td mat-cell *matCellDef="let link"> {{link.weight}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="isIncluded">
+        <th mat-header-cell *matHeaderCellDef> Is included </th>
+        <td mat-cell *matCellDef="let link"> {{link.isIncluded}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="linkColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: linkColumns;"></tr>
+    </table>
+
+  </mat-expansion-panel>
+</mat-accordion>

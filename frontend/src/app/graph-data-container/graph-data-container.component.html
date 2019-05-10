@@ -26,8 +26,22 @@
   <button mat-button (click)="getRandomGraph()">Generate</button>
 </div>
 
+<mat-form-field>
+  <mat-label>Algorithm</mat-label>
+  <mat-select [(ngModel)]="selectedMethod">
+    <mat-option *ngFor="let method of methods" [value]="method.value">
+      {{method.viewValue}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
 <button mat-button (click)="updateResultGraphData()">Get result</button>
 
+<app-graph-details [graphData]="initialGraphData"></app-graph-details>
 <graph [data]="initialGraphData"></graph>
+
+<app-graph-details *ngIf="resultGraphData" [graphData]="resultGraphData"></app-graph-details>
 <graph *ngIf="resultGraphData" [data]="resultGraphData"></graph>
+
+{{score}}
 

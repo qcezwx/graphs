@@ -14,6 +14,7 @@ export class GraphDataContainerComponent implements OnInit, OnDestroy {
   initialGraphData: GraphData = {nodes: [], links: []};
   resultGraphData: GraphData;
   time: number;
+  score: number;
 
   graphResponse: GraphResponse;
 
@@ -23,6 +24,13 @@ export class GraphDataContainerComponent implements OnInit, OnDestroy {
   linkMinWeight: number;
   linkMaxWeight: number;
   limit: number;
+  methods = [
+    {value: 'simple_greedy', viewValue: 'Simple Greedy'},
+    {value: 'spath_greedy', viewValue: 'Spath Greedy'},
+    {value: 'simple_grasp', viewValue: 'Simple Grasp'},
+    {value: 'spath_grasp', viewValue: 'Spath Grasp'}
+  ];
+  selectedMethod: string;
 
   constructor(private graphService: GraphService) { }
 
@@ -35,7 +43,7 @@ export class GraphDataContainerComponent implements OnInit, OnDestroy {
   }
 
   updateResultGraphData(): void {
-    let graphRequest: GraphRequest = new GraphRequest({nodes: [], edges: []}, {name: "test", params:{limit: 0}});
+    let graphRequest: GraphRequest = new GraphRequest({nodes: [], links: []}, {name: "test", params:{limit: 0}});
 
     for (let i = 0; i < this.initialGraphData.nodes.length; i++) {
       graphRequest.graph.nodes.push({
@@ -45,7 +53,7 @@ export class GraphDataContainerComponent implements OnInit, OnDestroy {
     }
 
     for (let i = 0; i < this.initialGraphData.links.length; i++) {
-      graphRequest.graph.edges.push({
+      graphRequest.graph.links.push({
         nodeId1: this.initialGraphData.links[i].source.id,
         nodeId2: this.initialGraphData.links[i].target.id,
         weight: this.initialGraphData.links[i].weight
@@ -53,7 +61,7 @@ export class GraphDataContainerComponent implements OnInit, OnDestroy {
     }
 
     graphRequest.method = {
-      name: "simple_grasp",
+      name: this.selectedMethod,
       params: {
         limit: this.limit
       }
@@ -71,17 +79,24 @@ export class GraphDataContainerComponent implements OnInit, OnDestroy {
         });
       }
 
-      for (let i = 0; i < this.graphResponse.graph.edges.length; i++) {
+      for (let i = 0; i < this.graphResponse.graph.links.length; i++) {
         result.links.push({
-          source: this.graphResponse.graph.edges[i].nodeId1,
-          target: this.graphResponse.graph.edges[i].nodeId2,
-          group: this.graphResponse.graph.edges[i].color === "blue" ? 1 : 2,
-          weight: this.graphResponse.graph.edges[i].weight
+          source: this.graphResponse.graph.links[i].nodeId1,
+          target: this.graphResponse.graph.links[i].nodeId2,
+          group: this.graphResponse.graph.links[i].color === "blue" ? 1 : 2,
+          weight: this.graphResponse.graph.links[i].weight
         });
       }
 
       this.resultGraphData = result;
-      console.log(this.resultGraphData)
+
+      if (graphResponse.time) {
+        this.time = graphResponse.time;
+      }
+
+      if (graphResponse.score) {
+        this.score = graphResponse.score;
+      }
     });
   }
 

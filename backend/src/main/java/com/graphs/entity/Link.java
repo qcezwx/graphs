@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Edge {
+public class Link {
     @JsonProperty("nodeId1")
     private int from;
     @JsonProperty("nodeId2")

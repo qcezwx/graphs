@@ -86,7 +86,7 @@ def optgraph_brute(graph_eges, vertex_score, limit):
                     res_size = tree.size(weight='weight')
         i.incr()
 
-    return get_res(res_tree)  # , max_score, res_size
+    return get_res(res_tree)# , max_score, res_size
 
 
 ###########################################################################################################
@@ -178,8 +178,7 @@ def optgraph_spath_greedy(graph_eges, vertex_score, limit):
         weight_left = weight_limit - tree.size(weight='weight')
 
     tree = nx.minimum_spanning_tree(G.subgraph(selected_nodes))
-    return get_res(
-        tree)  # , get_score(selected_nodes, vertex_score), tree.size(weight='weight'),
+    return get_res(tree), get_score(selected_nodes, vertex_score)  # , get_score(selected_nodes, vertex_score), tree.size(weight='weight'),
 
 
 ##################################################################################################
@@ -230,8 +229,7 @@ def optgraph_simple_greedy(graph_eges, vertex_score, limit):
         vacant_nodes.difference_update(unreachable)
 
     tree = nx.minimum_spanning_tree(G.subgraph(selected_nodes))
-    return get_res(
-        tree)  # , get_score(selected_nodes, vertex_score), tree.size(weight='weight'),
+    return get_res(tree), get_score(selected_nodes, vertex_score)  # , get_score(selected_nodes, vertex_score), tree.size(weight='weight'),
 
 
 ############################################################################################################################
@@ -321,8 +319,7 @@ def optgraph_spath_grasp(graph_eges, vertex_score, limit, rep=10, alpha=0.7):
             max_res_score = res_score
             res_tree = tree
 
-    return get_res(
-        tree)  # , get_score(selected_nodes, vertex_score), tree.size(weight='weight'),
+    return get_res(tree), get_score(selected_nodes, vertex_score)  # , get_score(selected_nodes, vertex_score), tree.size(weight='weight'),
 
 
 ############################################################################################################################

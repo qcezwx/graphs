@@ -4,7 +4,7 @@ export class GraphRequest {
       nodeId: string;
       weight: number;
     }[],
-    edges: {
+    links: {
       nodeId1: string;
       nodeId2: string;
       weight: number;
@@ -18,7 +18,7 @@ export class GraphRequest {
     }
   };
 
-  constructor(graph: { nodes: { nodeId: string; weight: number }[]; edges: { nodeId1: string; nodeId2: string; weight: number }[] },
+  constructor(graph: { nodes: { nodeId: string; weight: number }[]; links: { nodeId1: string; nodeId2: string; weight: number }[] },
               method: { name: string; params: { limit: number } }) {
     this.graph = graph;
     this.method = method;

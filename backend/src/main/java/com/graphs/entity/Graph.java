@@ -11,5 +11,5 @@ import java.util.List;
 @NoArgsConstructor
 public class Graph {
     private List<Node> nodes;
-    private List<Edge> edges;
+    private List<Link> links;
 }
