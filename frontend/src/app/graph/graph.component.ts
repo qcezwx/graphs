@@ -69,6 +69,8 @@ export class GraphComponent implements AfterViewInit {
   private getNodeColor = function(node : any) {
     if (!node.group) {
       return "#000000";
+    } else if (node.group === 4) {
+      return "#ffff00";
     } else if (node.group === 1) {
       return "#19ff00";
     } else if (node.group === 2) {
@@ -105,6 +107,8 @@ export class GraphComponent implements AfterViewInit {
     this.updateSimulationData();
     this.repaint();
     this.addEventListeners();
+
+    console.log(performance.now());
   }
 
   ngAfterViewChecked(): void {
@@ -144,7 +148,7 @@ export class GraphComponent implements AfterViewInit {
       context.beginPath();
       context.moveTo(link.source.x * scale + translate.x, link.source.y * scale + translate.y);
       context.lineTo(link.target.x * scale + translate.x, link.target.y * scale + translate.y);
-      context.lineWidth = link.weight;
+      context.lineWidth = this.getLogWeight(link.weight);
       context.strokeStyle = this.getLinkColor(link);
       context.stroke();
       context.closePath();
@@ -153,12 +157,12 @@ export class GraphComponent implements AfterViewInit {
     for (let color in this.colorGroups) {
       context.beginPath();
       for (let node of this.colorGroups[color]) {
-        context.moveTo((node.x + node.weight) * scale + translate.x, node.y * scale + translate.y);
+        context.moveTo((node.x + this.getNodeLogWeight(node.weight)) * scale + translate.x, node.y * scale + translate.y);
         context.arc(
           node.x * scale + translate.x,
           node.y * scale + translate.y,
-          node.weight * scale,
-          0, 4 * Math.PI);
+          this.getNodeLogWeight(node.weight) * scale,
+          0, 2 * Math.PI);
         //context.fillText(node.id, (node.x + 15) * scale, (node.y + 10) * scale);
       }
 
@@ -168,6 +172,16 @@ export class GraphComponent implements AfterViewInit {
       context.stroke();
       context.closePath();
     }
+  }
+
+  private getLogWeight(weight: number): number {
+    let resultWeight = Math.floor(Math.log(weight));
+    return resultWeight < 1 ? 1 : resultWeight;
+  }
+
+  private getNodeLogWeight(weight: number): number {
+    let resultWeight = Math.floor(Math.log(weight) / Math.log(1.25));
+    return resultWeight < 1 ? 1 : resultWeight;
   }
 
   private updateSimulationData(): void {
@@ -184,10 +198,7 @@ export class GraphComponent implements AfterViewInit {
             .force('link', d3.forceLink().id(function (d: any) {
               return d.id;
             }))
-            .force('charge', d3.forceManyBody().strength(function (d, i) {
-            let a = i == 0 ? -2000 : -1000;
-            return a;
-          }).distanceMin(200).distanceMax(1000))
+            .force('charge', d3.forceManyBody().strength(-1000))
             .force('center', d3.forceCenter(this.properties.width / 2, this.properties.height / 2));
         }
         let simulation = this.simulation;

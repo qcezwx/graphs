@@ -1,4 +1,18 @@
-<h3>Graphs</h3>
+<mat-toolbar>
+  <span>Nodeplan.io</span>
+
+  <span class="mat-toolbar-spacer"></span>
+
+  <button mat-button (click)="rankingsMode = false">
+    Build Graphs
+  </button>
+
+  <button mat-button (click)="rankingsMode = true">
+    Test Algorithms
+  </button>
+
+</mat-toolbar>
+
 <div class="graph-container">
-  <data-container></data-container>
+  <data-container [rankingsMode]="rankingsMode"></data-container>
 </div>

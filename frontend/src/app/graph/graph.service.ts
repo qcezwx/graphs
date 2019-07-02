@@ -1,12 +1,16 @@
 import {Injectable} from '@angular/core';
 import {GraphData} from "./graph-data.model";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {GraphResponse} from "./GraphResponse";
 import {GraphRequest} from "./GraphRequest";
+import {RankingResponse} from "./RankingResponse";
+import {RankingRequest} from "./RankingRequest";
+import {Graph} from "./Graph";
+import {RankingResponseV2} from "./RankingResponseV2";
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
 
 @Injectable({
@@ -48,8 +52,27 @@ export class GraphService {
     return graphData;
   }
 
+  getGraphFromFile(request: FormData): Observable<Graph> {
+    let params = new HttpParams();
+
+    const options = {
+      params: params,
+      reportProgress: true,
+    };
+
+    return this.http.post<Graph>(`http://localhost:8080/api/read-from-file`, request, options);
+  }
+
   getResultGraph(request: GraphRequest): Observable<GraphResponse> {
     return this.http.post<GraphResponse>(`http://localhost:8080/api/sasha/result-graph`, request);
+  }
+
+  getRankings(request: RankingRequest): Observable<RankingResponse> {
+    return this.http.post<RankingResponse>(`http://localhost:8080/api/sasha/rankings`, request);
+  }
+
+  getRankingsV2(request: RankingRequest): Observable<RankingResponseV2> {
+    return this.http.post<RankingResponseV2>(`http://localhost:8080/api/sasha/rankingsV2`, request);
   }
 
 }

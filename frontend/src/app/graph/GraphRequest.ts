@@ -14,7 +14,7 @@ export class GraphRequest {
   method: {
     name?: string;
     params: {
-      limit: number;
+      limit?: number;
     }
   };
 

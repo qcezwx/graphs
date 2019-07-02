@@ -1,4 +1,14 @@
-<div>
+<mat-tab-group *ngIf="!rankingsMode">
+  <mat-tab label="Build graph">
+    <app-graph-input-random (graphDataChanged)="graphDataChangedHandler($event)"></app-graph-input-random>
+  </mat-tab>
+
+  <mat-tab label="Upload file">
+    <app-graph-input-dropzone (graphDataChanged)="graphDataChangedHandler($event)"></app-graph-input-dropzone>
+  </mat-tab>
+</mat-tab-group>
+
+<div *ngIf="rankingsMode">
   <mat-form-field>
     <input matInput placeholder="Number of nodes" [(ngModel)]="nodesNumber" type="number">
   </mat-form-field>
@@ -18,30 +28,46 @@
   <mat-form-field>
     <input matInput placeholder="Link max weight" [(ngModel)]="linkMaxWeight" type="number">
   </mat-form-field>
+</div>
 
+<div>
   <mat-form-field>
     <input matInput placeholder="Limit" [(ngModel)]="limit" type="number">
   </mat-form-field>
 
-  <button mat-button (click)="getRandomGraph()">Generate</button>
+  <mat-form-field *ngIf="rankingsMode">
+    <input matInput placeholder="Iterations" [(ngModel)]="iterations" type="number">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Algorithm</mat-label>
+    <mat-select [(ngModel)]="selectedMethod">
+      <mat-option *ngFor="let method of methods" [value]="method.value">
+        {{method.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-button *ngIf="!rankingsMode" (click)="updateResultGraphData()">Get result</button>
+  <button mat-button *ngIf="rankingsMode" (click)="getRankingsV2()">Get rankings</button>
 </div>
 
-<mat-form-field>
-  <mat-label>Algorithm</mat-label>
-  <mat-select [(ngModel)]="selectedMethod">
-    <mat-option *ngFor="let method of methods" [value]="method.value">
-      {{method.viewValue}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+<app-graph-details *ngIf="!rankingsMode" [graphData]="initialGraphData"></app-graph-details>
+<graph *ngIf="!rankingsMode" [data]="initialGraphData"></graph>
 
-<button mat-button (click)="updateResultGraphData()">Get result</button>
+<app-graph-details *ngIf="resultGraphData && !rankingsMode" [graphData]="resultGraphData"></app-graph-details>
+<graph *ngIf="resultGraphData && !rankingsMode" [data]="resultGraphData"></graph>
 
-<app-graph-details [graphData]="initialGraphData"></app-graph-details>
-<graph [data]="initialGraphData"></graph>
+<app-graph-charts *ngIf="rankingsMode && rankingResponseV2" [title]="'Time statistics'" [data]="timeRankings" [columnNames]="timeAxis" [average]="timeAverage"></app-graph-charts>
+<app-graph-charts *ngIf="rankingsMode && rankingResponseV2" [title]="'Score statistics'" [data]="scoreRankings" [columnNames]="scoreAxis" [average]="scoreAverage"></app-graph-charts>
 
-<app-graph-details *ngIf="resultGraphData" [graphData]="resultGraphData"></app-graph-details>
-<graph *ngIf="resultGraphData" [data]="resultGraphData"></graph>
+<div *ngIf="rankingsMode && rankingResponse">
+  <p>{{rankingResponse.minTime}}</p>
+  <p>{{rankingResponse.averageTime}}</p>
+  <p>{{rankingResponse.maxTime}}</p>
+  <p>{{rankingResponse.minScore}}</p>
+  <p>{{rankingResponse.averageScore}}</p>
+  <p>{{rankingResponse.maxScore}}</p>
+</div>
 
-{{score}}
 

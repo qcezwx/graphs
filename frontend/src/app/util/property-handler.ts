@@ -7,7 +7,7 @@ export function PropertyHandler<T>(handlers: PropertyHandlers<T>): PropertyDecor
 
   return (target: any, propertyKey: string | symbol): void => {
 
-    let spoofPropertyKey = `__PropertyHandler_${propertyKey}_value`;
+    let spoofPropertyKey = `__PropertyHandler_${String(propertyKey)}_value`;
 
     let propertyDescriptor = {
       configurable: true,

@@ -12,6 +12,13 @@ import {MatButtonModule, MatExpansionModule, MatInputModule} from "@angular/mate
 import {MatSelectModule} from '@angular/material/select';
 import {GraphDetailsComponent} from './graph-details/graph-details.component';
 import {MatTableModule} from '@angular/material/table';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {FileDropModule} from 'ngx-file-drop';
+import {GraphInputDropzoneComponent} from './graph-input-dropzone/graph-input-dropzone.component';
+import {GraphInputRandomComponent} from './graph-input-random/graph-input-random.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { GraphChartsComponent } from './graph-charts/graph-charts.component';
+import {GoogleChartsModule} from "angular-google-charts";
 
 
 @NgModule({
@@ -26,6 +33,10 @@ import {MatTableModule} from '@angular/material/table';
     MatSelectModule,
     MatExpansionModule,
     MatTableModule,
+    MatToolbarModule,
+    FileDropModule,
+    MatTabsModule,
+    GoogleChartsModule,
     HttpClientModule
   ],
   exports: [
@@ -34,13 +45,18 @@ import {MatTableModule} from '@angular/material/table';
     MatButtonModule,
     MatSelectModule,
     MatExpansionModule,
-    MatTableModule
+    MatTableModule,
+    MatToolbarModule,
+    MatTabsModule
   ],
   declarations: [
     AppComponent,
     GraphComponent,
     GraphDataContainerComponent,
-    GraphDetailsComponent
+    GraphDetailsComponent,
+    GraphInputDropzoneComponent,
+    GraphInputRandomComponent,
+    GraphChartsComponent
   ],
   providers: [HttpClient],
   bootstrap: [AppComponent]
