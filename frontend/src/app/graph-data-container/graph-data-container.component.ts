@@ -23,10 +23,10 @@ export class GraphDataContainerComponent implements OnInit, OnDestroy {
   rankingResponse: RankingResponse;
   rankingResponseV2 : RankingResponseV2;
 
-  timeRankings: [];
+  timeRankings: any[];
   timeAverage: number;
   timeAxis = ["ms", "amount"];
-  scoreRankings: [];
+  scoreRankings: any[];
   scoreAverage: number;
   scoreAxis = ["score", "amount"];
 
@@ -41,9 +41,12 @@ export class GraphDataContainerComponent implements OnInit, OnDestroy {
     {value: 'simple_greedy', viewValue: 'Simple Greedy'},
     {value: 'spath_greedy', viewValue: 'Spath Greedy'},
     {value: 'simple_grasp', viewValue: 'Simple Grasp'},
-    {value: 'spath_grasp', viewValue: 'Spath Grasp'}
+    {value: 'spath_grasp', viewValue: 'Spath Grasp'},
+    {value: 'brute', viewValue: 'Exact Solution'}
   ];
   selectedMethod: string;
+
+  showInitialData = true;
 
   @Input()
   rankingsMode;
@@ -101,8 +104,6 @@ export class GraphDataContainerComponent implements OnInit, OnDestroy {
         });
       }
 
-      this.resultGraphData = result;
-
       if (graphResponse.time) {
         this.time = graphResponse.time;
       }
@@ -110,8 +111,19 @@ export class GraphDataContainerComponent implements OnInit, OnDestroy {
       if (graphResponse.score) {
         this.score = graphResponse.score;
       }
-    });
 
+      this.resultGraphData = result;
+
+      this.showInitialData = false;
+    });
+  }
+
+  showInitial() : void {
+    this.showInitialData = true;
+  }
+
+  showResult() : void {
+    this.showInitialData = false;
   }
 
   getRankings(): void {
@@ -147,7 +159,7 @@ export class GraphDataContainerComponent implements OnInit, OnDestroy {
   }
 
   getTimesFromRankingResponseV2(): void {
-    let times = [];
+    let times : any[] = [];
     let sum = 0;
     for (let i = 0; i < this.rankingResponseV2.timeRanking.length; i++) {
       let time = Math.round(this.rankingResponseV2.timeRanking[i] * 1000);
@@ -167,7 +179,7 @@ export class GraphDataContainerComponent implements OnInit, OnDestroy {
       scores.push([i.toString(), Math.round(this.rankingResponseV2.scoreRanking[i])])
     }
 
-    this.scoreAverage = Math.round(sum/this.rankingResponseV2.scoreRanking.length)
+    this.scoreAverage = Math.round(sum/this.rankingResponseV2.scoreRanking.length);
     this.scoreRankings = scores;
   }
 

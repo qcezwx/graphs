@@ -34,7 +34,6 @@ public class SashaGraphService extends GraphService{
 
     private InvokeResult getInvokeResult(String payload) {
         BasicAWSCredentials credentials =
-                new BasicAWSCredentials("", "");
 
         AWSLambdaClientBuilder builder = AWSLambdaClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))

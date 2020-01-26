@@ -52,11 +52,14 @@
   <button mat-button *ngIf="rankingsMode" (click)="getRankingsV2()">Get rankings</button>
 </div>
 
-<app-graph-details *ngIf="!rankingsMode" [graphData]="initialGraphData"></app-graph-details>
-<graph *ngIf="!rankingsMode" [data]="initialGraphData"></graph>
+<button mat-button *ngIf="!rankingsMode" (click)="showInitial()">Show initial graph</button>
+<button mat-button *ngIf="!rankingsMode" (click)="showResult()">Show result graph</button>
 
-<app-graph-details *ngIf="resultGraphData && !rankingsMode" [graphData]="resultGraphData"></app-graph-details>
-<graph *ngIf="resultGraphData && !rankingsMode" [data]="resultGraphData"></graph>
+<app-graph-details *ngIf="!rankingsMode && showInitialData" [graphData]="initialGraphData"></app-graph-details>
+<graph *ngIf="!rankingsMode && showInitialData" [data]="initialGraphData"></graph>
+
+<app-graph-details *ngIf="resultGraphData && !rankingsMode && !showInitialData" [graphData]="resultGraphData"></app-graph-details>
+<graph *ngIf="resultGraphData && !rankingsMode && !showInitialData" [data]="resultGraphData"></graph>
 
 <app-graph-charts *ngIf="rankingsMode && rankingResponseV2" [title]="'Time statistics'" [data]="timeRankings" [columnNames]="timeAxis" [average]="timeAverage"></app-graph-charts>
 <app-graph-charts *ngIf="rankingsMode && rankingResponseV2" [title]="'Score statistics'" [data]="scoreRankings" [columnNames]="scoreAxis" [average]="scoreAverage"></app-graph-charts>

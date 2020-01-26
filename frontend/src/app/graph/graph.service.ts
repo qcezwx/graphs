@@ -8,6 +8,7 @@ import {RankingResponse} from "./RankingResponse";
 import {RankingRequest} from "./RankingRequest";
 import {Graph} from "./Graph";
 import {RankingResponseV2} from "./RankingResponseV2";
+import {GatewayService} from "../gateway.service";
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -19,7 +20,7 @@ const httpOptions = {
 export class GraphService {
   configUrl = 'assets/config.json';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private gatewayService: GatewayService) {
   }
 
   getConfig() {
@@ -60,19 +61,19 @@ export class GraphService {
       reportProgress: true,
     };
 
-    return this.http.post<Graph>(`http://localhost:8080/api/read-from-file`, request, options);
+    return this.http.post<Graph>(`${this.gatewayService.gateway}/api/read-from-file`, request, options);
   }
 
   getResultGraph(request: GraphRequest): Observable<GraphResponse> {
-    return this.http.post<GraphResponse>(`http://localhost:8080/api/sasha/result-graph`, request);
+    return this.http.post<GraphResponse>(`${this.gatewayService.gateway}/api/sasha/result-graph`, request);
   }
 
   getRankings(request: RankingRequest): Observable<RankingResponse> {
-    return this.http.post<RankingResponse>(`http://localhost:8080/api/sasha/rankings`, request);
+    return this.http.post<RankingResponse>(`${this.gatewayService.gateway}/api/sasha/rankings`, request);
   }
 
   getRankingsV2(request: RankingRequest): Observable<RankingResponseV2> {
-    return this.http.post<RankingResponseV2>(`http://localhost:8080/api/sasha/rankingsV2`, request);
+    return this.http.post<RankingResponseV2>(`${this.gatewayService.gateway}/api/sasha/rankingsV2`, request);
   }
 
 }

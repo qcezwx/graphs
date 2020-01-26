@@ -86,7 +86,7 @@ def optgraph_brute(graph_eges, vertex_score, limit):
                     res_size = tree.size(weight='weight')
         i.incr()
 
-    return get_res(res_tree)# , max_score, res_size
+    return get_res(res_tree), max_score#, res_size
 
 
 ###########################################################################################################
