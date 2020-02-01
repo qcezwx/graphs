@@ -16,11 +16,11 @@ import java.io.InputStream;
 
 @CrossOrigin(origins = "*")
 @RestController
-public class CrudController {
+public class LambdaController {
     private final SashaGraphService sashaGraphService;
 
     @Autowired
-    public CrudController(SashaGraphService sashaGraphService) {
+    public LambdaController(SashaGraphService sashaGraphService) {
         this.sashaGraphService = sashaGraphService;
     }
 
