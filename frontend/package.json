@@ -24,7 +24,7 @@
     "@angular/router": "^7.2.14",
     "angular-google-charts": "^0.1.6",
     "core-js": "^2.5.4",
-    "d3": "^5.9.1",
+    "d3": "^7.6.1",
     "ngx-file-drop": "^6.0.1",
     "npm": "^6.9.0",
     "rxjs": "^6.5.2",
